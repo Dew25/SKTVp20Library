@@ -94,12 +94,32 @@ public class App {
                     System.out.println("-------------------");
                     break;
                 case 6:
-                    System.out.println("--- Список читателей ---");
-                    for (int i = 0; i < readers.length; i++) {
-                        if(readers[i] != null){
-                            System.out.println(readers[i].toString());
+                    System.out.println("--- Возврат книги ---");
+                    System.out.println("Список читаемых книг:");
+                    int n = 0;
+                    for (int i = 0; i < histories.length; i++) {
+                        if(histories[i] != null && histories[i].getReturnedDate() == null){
+                            System.out.println(i+1+". Книгу "
+                                    +histories[i].getBook().getBookName()
+                                    +" читает "+histories[i].getReader().getFirstname()
+                                    +" "+histories[i].getReader().getLastname()
+                            );
+                            n++;
                         }
                     }
+                    if(n < 1){
+                        System.out.println("Нет читаемых книг!");
+                        System.out.println("-------------------");
+                        break;
+                    }
+                    System.out.print("Выберите номер возврщаемой книги: ");
+                    int numberHistory = scanner.nextInt(); scanner.nextLine();
+                    Calendar c = new GregorianCalendar();
+                    histories[numberHistory - 1].setReturnedDate(c.getTime());
+                    System.out.println("Книга "
+                            +histories[numberHistory - 1].getBook().getBookName()
+                            +" возвращена в библиотеку"
+                    );
                     System.out.println("-------------------");
                     break;
                 default:
