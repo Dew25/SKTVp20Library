@@ -16,6 +16,8 @@ public class Book implements Serializable{
     private String bookName;
     private Author[] authors;
     private int publishedYear;
+    private int quantity;
+    private int count;
 
     public Book() {
     }
@@ -46,7 +48,29 @@ public class Book implements Serializable{
 
     @Override
     public String toString() {
-        return "Book{" + "bookName=" + bookName + ", authors=" + Arrays.toString(authors) + ", publishedYear=" + publishedYear + '}';
+        return "Book{" 
+                + "bookName=" + bookName 
+                + ", authors=" + Arrays.toString(authors) 
+                + ", publishedYear=" + publishedYear 
+                + ", quantity=" + quantity 
+                + ", count=" + count 
+                + '}';
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
     
     
