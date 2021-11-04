@@ -6,6 +6,7 @@
 package sktvp20library;
 
 import myclasses.App;
+import myclasses.GuiApp;
 
 /**
  *

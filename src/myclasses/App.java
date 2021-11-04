@@ -35,12 +35,13 @@ public class App {
     private List<Reader> readers = new ArrayList<>();
     private List<History> histories = new ArrayList<>();
     // -------- сохранение --------
-    private Keeping keeping = new KeeperToFile();
+   // private Keeping keeping = new KeeperToFile();
+    private Keeping keeping = new KeeperToBase();
     
     public App(){
         books = keeping.loadBooks();
-        readers = keeping.loadReaders();
-        histories = keeping.loadHistories();
+//        readers = keeping.loadReaders();
+//        histories = keeping.loadHistories();
     }
     
     public void run(){

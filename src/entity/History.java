@@ -7,15 +7,27 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author user
  */
+@Entity
 public class History implements Serializable{
+    @Id
+    @GeneratedValue
+    @OneToOne
     private Reader reader;
+    @OneToOne
     private Book book;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date givenDate;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date returnedDate;
 
     public History() {
