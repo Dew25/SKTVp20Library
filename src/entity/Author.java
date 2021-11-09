@@ -45,6 +45,14 @@ public class Author implements Serializable{
     public String toString() {
         return "Author{" + "firstname=" + firstname + ", lastname=" + lastname + '}';
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     
     
 }

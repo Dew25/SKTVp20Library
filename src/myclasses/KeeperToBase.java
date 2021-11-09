@@ -5,6 +5,7 @@
  */
 package myclasses;
 
+import entity.Author;
 import entity.Book;
 import entity.History;
 import entity.Reader;
@@ -29,7 +30,20 @@ public class KeeperToBase implements Keeping{
     public void saveBooks(List<Book> books) {
         tx.begin();
             for (int i = 0; i < books.size(); i++) {
-                em.persist(books.get(i));
+                if(books.get(i).getId() == null){
+                    em.persist(books.get(i));
+                }
+            }
+        tx.commit();
+        
+    }
+@Override
+    public void saveAuthors(List<Author> authors) {
+        tx.begin();
+            for (int i = 0; i < authors.size(); i++) {
+                if(authors.get(i).getId() == null){
+                    em.persist(authors.get(i));
+                }
             }
         tx.commit();
         
@@ -38,21 +52,44 @@ public class KeeperToBase implements Keeping{
     @Override
     public List<Book> loadBooks() {
         try {
-            return (List<Book>) em.createQuery("SELECT b FROM Book b WHERE 1");
+            return (List<Book>) em.createQuery("SELECT b FROM Book b")
+                    .getResultList();
         } catch (Exception e) {
             System.out.println("Таблица BOOK пуста");
+        }
+        return new ArrayList<>();
+    }
+    
+    public List<Author> loadAuthors() {
+        try {
+            return (List<Author>) em.createQuery("SELECT author FROM Author author")
+                    .getResultList();
+        } catch (Exception e) {
+            System.out.println("Таблица Author пуста");
         }
         return new ArrayList<>();
     }
 
     @Override
     public void saveReaders(List<Reader> readers) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        tx.begin();
+            for (int i = 0; i < readers.size(); i++) {
+                if(readers.get(i).getId() == null){
+                    em.persist(readers.get(i));
+                }
+            }
+        tx.commit();
     }
 
     @Override
     public List<Reader> loadReaders() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return (List<Reader>) em.createQuery("SELECT reader FROM Reader reader")
+                    .getResultList();
+        } catch (Exception e) {
+            System.out.println("Таблица Reader пуста");
+        }
+        return new ArrayList<>();
     }
 
     @Override
