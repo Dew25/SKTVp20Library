@@ -43,7 +43,7 @@ public class App {
         books = keeping.loadBooks();
         authors = keeping.loadAuthors();
         readers = keeping.loadReaders();
-//        histories = keeping.loadHistories();
+        histories = keeping.loadHistories();
     }
     
     public void run(){
@@ -188,7 +188,7 @@ public class App {
                 );
                 setNumbersBooks.add(i+1);
             }else if(books.get(i) != null){
-                System.out.printf("%d. %s. %s. %d. Книга читается до: %s%n"
+                System.out.printf("%1$d. (Книга читается до: %5$s) %2$s. %4$d. %3$s%n"
                         ,i+1
                         ,books.get(i).getBookName()
                         ,Arrays.toString(books.get(i).getAuthors().toArray())

@@ -21,6 +21,7 @@ import javax.persistence.Temporal;
 public class History implements Serializable{
     @Id
     @GeneratedValue
+    private Long id;
     @OneToOne
     private Reader reader;
     @OneToOne
@@ -73,6 +74,14 @@ public class History implements Serializable{
                 + ", givenDate=" + givenDate 
                 + ", returnedDate=" + returnedDate 
                 + '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
     
 }

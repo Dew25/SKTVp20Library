@@ -94,12 +94,24 @@ public class KeeperToBase implements Keeping{
 
     @Override
     public void saveHistories(List<History> histories) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         tx.begin();
+            for (int i = 0; i < histories.size(); i++) {
+                if(histories.get(i).getId() == null){
+                    em.persist(histories.get(i));
+                }
+            }
+        tx.commit();
     }
 
     @Override
     public List<History> loadHistories() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         try {
+            return (List<History>) em.createQuery("SELECT history FROM History history")
+                    .getResultList();
+        } catch (Exception e) {
+            System.out.println("Таблица History пуста");
+        }
+        return new ArrayList<>();
     }
     
 }
