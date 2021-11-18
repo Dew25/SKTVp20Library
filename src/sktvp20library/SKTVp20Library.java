@@ -5,7 +5,11 @@
  */
 package sktvp20library;
 
+<<<<<<< Updated upstream
 import myclasses.App;
+=======
+import gui.GuiApp;
+>>>>>>> Stashed changes
 
 /**
  *
@@ -17,9 +21,9 @@ public class SKTVp20Library {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        App app;
-        app = new App();
-        app.run();
+        GuiApp app;
+        app = new GuiApp();
+        app.createFrame();
         
     }
     
