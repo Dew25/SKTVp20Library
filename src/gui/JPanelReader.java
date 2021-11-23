@@ -5,20 +5,23 @@
  */
 package gui;
 
+import entity.Author;
 import entity.Book;
 import entity.Reader;
 import interfaces.Keeping;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.ItemSelectable;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
-import javax.swing.event.ListSelectionListener;
 import myclasses.KeeperToBase;
 
 /**
@@ -28,6 +31,7 @@ import myclasses.KeeperToBase;
 public class JPanelReader extends javax.swing.JPanel {
     Keeping keeper = new KeeperToBase();
     List<Reader> readers;
+    List<Book> books;
     DefaultComboBoxModel<Reader> myComboBoxModel;
     /**
      * Creates new form NewJPanel
@@ -35,16 +39,29 @@ public class JPanelReader extends javax.swing.JPanel {
     public JPanelReader() {
         initComponents();
         readers = keeper.loadReaders();
+        books = keeper.loadBooks();
         //myComboBoxModel = new MyComboBoxModel(readers.toArray(new Reader[readers.size()]));
         jComboBoxReaders.setModel(new DefaultComboBoxModel(readers.toArray(new Reader[readers.size()])));
-        jComboBoxReaders.setRenderer(createListRenderer());
-        jComboBoxReaders.addItemListener((e) -> {
-            if (!e.getItemSelectable()) {
-                System.out.println(e.);
-            }
-        });
+        jComboBoxReaders.setRenderer(createListReadersRenderer());
+        jComboBoxReaders.addItemListener(itemListener);
+        jListBooks.setModel(books.toArray(new Book[books.size()]));
+        jListBooks.setCellRenderer(createListBooksRenderer());
+        JScrollPane pane = new JScrollPane(jListBooks);
+        
     }
-    private ListCellRenderer<? super Reader> createListRenderer(){
+    ItemListener itemListener = new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent itemEvent) {
+        int state = itemEvent.getStateChange();
+        System.out.println((state == ItemEvent.SELECTED) ? "Selected" : "Deselected");
+        System.out.println("Item: " + itemEvent.getItem());
+        ItemSelectable is = itemEvent.getItemSelectable();
+        
+      }
+
+        
+    };
+    private ListCellRenderer<? super Reader> createListReadersRenderer(){
         return new DefaultListCellRenderer(){
             private final Color background = new Color(0, 100, 255, 15);
             private final Color defaultBackground = (Color) UIManager.get("List.background");
@@ -69,13 +86,7 @@ public class JPanelReader extends javax.swing.JPanel {
             }
         };
     }
-    private ListSelectionListener createListSelectionListener(JComboBox<Reader> list) {
-        return e -> {
-            if (!e.getValueIsAdjusting()) {
-                System.out.println(list.getSelectedItem());
-            }
-        };
-    }
+    
     
     
     /**
@@ -89,8 +100,23 @@ public class JPanelReader extends javax.swing.JPanel {
 
         jLabelChoiceReader = new javax.swing.JLabel();
         jComboBoxReaders = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListBooks = new javax.swing.JList<>();
+        jLabelBooks = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         jLabelChoiceReader.setText("Выбери себя");
+
+        jScrollPane1.setViewportView(jListBooks);
+
+        jLabelBooks.setText("Выбери книгу");
+
+        jButton1.setText("Взять выбранную  книгу");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -99,8 +125,13 @@ public class JPanelReader extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelChoiceReader)
-                    .addComponent(jComboBoxReaders, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelBooks)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButton1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabelChoiceReader)
+                            .addComponent(jComboBoxReaders, 0, 293, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1))))
                 .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -110,13 +141,65 @@ public class JPanelReader extends javax.swing.JPanel {
                 .addComponent(jLabelChoiceReader)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBoxReaders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(235, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
+                .addComponent(jLabelBooks)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<Reader> jComboBoxReaders;
+    private javax.swing.JLabel jLabelBooks;
     private javax.swing.JLabel jLabelChoiceReader;
+    private javax.swing.JList<Book> jListBooks;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    private ListCellRenderer<? super Book> createListBooksRenderer() {
+        return new DefaultListCellRenderer(){
+            private final Color background = new Color(0, 100, 255, 15);
+            private final Color defaultBackground = (Color) UIManager.get("List.background");
+
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                                          boolean isSelected, boolean cellHasFocus) {
+                Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (component instanceof JLabel) {
+                    JLabel label = (JLabel) component;
+                    Book book = (Book) value;
+                    label.setText(String.format("%d. %s. %s %d. В наличии: %d%n"
+                            ,book.getId()
+                            ,book.getBookName()
+                            ,listStringAuthors(book.getAuthors())
+                            ,book.getPublishedYear()
+                            ,book.getCount()
+                    ));
+                    if (!isSelected) {
+                        label.setBackground(index % 2 == 0 ? background : defaultBackground);
+                    }
+                }
+                return component;
+            }
+            private String listStringAuthors(List<Author> authors){
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < authors.size(); i++) {
+                    sb.append(authors.get(i).getFirstname())
+                      .append(" ")
+                      .append(authors.get(i).getLastname())
+                      .append(". ");
+                }
+                return sb.toString();
+            }
+        };
+    }
 }
