@@ -5,6 +5,8 @@
  */
 package gui;
 
+import entity.Reader;
+
 /**
  *
  * @author user

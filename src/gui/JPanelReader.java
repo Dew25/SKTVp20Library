@@ -5,27 +5,79 @@
  */
 package gui;
 
+import entity.Book;
 import entity.Reader;
 import interfaces.Keeping;
+import java.awt.Color;
+import java.awt.Component;
 import java.util.List;
-import myclasses.KeeperToFile;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
+import javax.swing.UIManager;
+import javax.swing.event.ListSelectionListener;
+import myclasses.KeeperToBase;
 
 /**
  *
  * @author user
  */
 public class JPanelReader extends javax.swing.JPanel {
-    Keeping keeper = new KeeperToFile();
+    Keeping keeper = new KeeperToBase();
     List<Reader> readers;
+    DefaultComboBoxModel<Reader> myComboBoxModel;
     /**
      * Creates new form NewJPanel
      */
     public JPanelReader() {
         initComponents();
         readers = keeper.loadReaders();
-        
+        //myComboBoxModel = new MyComboBoxModel(readers.toArray(new Reader[readers.size()]));
+        jComboBoxReaders.setModel(new DefaultComboBoxModel(readers.toArray(new Reader[readers.size()])));
+        jComboBoxReaders.setRenderer(createListRenderer());
+        jComboBoxReaders.addItemListener((e) -> {
+            if (!e.getItemSelectable()) {
+                System.out.println(e.);
+            }
+        });
     }
-
+    private ListCellRenderer<? super Reader> createListRenderer(){
+        return new DefaultListCellRenderer(){
+            private final Color background = new Color(0, 100, 255, 15);
+            private final Color defaultBackground = (Color) UIManager.get("List.background");
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                                          boolean isSelected, boolean cellHasFocus) {
+                Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (component instanceof JLabel) {
+                    JLabel label = (JLabel) component;
+                    Reader reader = (Reader) value;
+                    label.setText(String.format("%d. %s. %s. Телефон: %s%n"
+                            ,reader.getId()
+                            ,reader.getFirstname()
+                            ,reader.getLastname()
+                            ,reader.getPhone()
+                    ));
+                    if (!isSelected) {
+                        label.setBackground(index % 2 == 0 ? background : defaultBackground);
+                    }
+                }
+                return component;
+            }
+        };
+    }
+    private ListSelectionListener createListSelectionListener(JComboBox<Reader> list) {
+        return e -> {
+            if (!e.getValueIsAdjusting()) {
+                System.out.println(list.getSelectedItem());
+            }
+        };
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,8 +91,6 @@ public class JPanelReader extends javax.swing.JPanel {
         jComboBoxReaders = new javax.swing.JComboBox<>();
 
         jLabelChoiceReader.setText("Выбери себя");
-
-        jComboBoxReaders.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -66,7 +116,7 @@ public class JPanelReader extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBoxReaders;
+    private javax.swing.JComboBox<Reader> jComboBoxReaders;
     private javax.swing.JLabel jLabelChoiceReader;
     // End of variables declaration//GEN-END:variables
 }
