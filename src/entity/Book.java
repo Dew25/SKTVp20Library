@@ -25,7 +25,7 @@ public class Book implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String bookName;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private List<Author> authors;
     private int publishedYear;
     private int quantity;
