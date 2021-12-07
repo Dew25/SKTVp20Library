@@ -12,6 +12,8 @@ import entity.Reader;
 import interfaces.Keeping;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -55,7 +57,7 @@ public class KeeperToBase implements Keeping{
             return (List<Book>) em.createQuery("SELECT b FROM Book b")
                     .getResultList();
         } catch (Exception e) {
-            System.out.println("Таблица BOOK пуста");
+            Logger.getLogger(KeeperToBase.class.getName()).log(Level.SEVERE, "Ошибка в loadBooks", e);
         }
         return new ArrayList<>();
     }
