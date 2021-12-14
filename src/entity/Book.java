@@ -8,7 +8,6 @@ package entity;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +24,7 @@ public class Book implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String bookName;
-    @OneToOne
+    @OneToOne()
     private List<Author> authors;
     private int publishedYear;
     private int quantity;

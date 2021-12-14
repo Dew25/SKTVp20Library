@@ -41,4 +41,9 @@ public class ButtonComponent extends JPanel{
         button.setMaximumSize(button.getPreferredSize());
         this.add(button);
     }
+
+    public JButton getButton() {
+        return button;
+    }
+    
 }

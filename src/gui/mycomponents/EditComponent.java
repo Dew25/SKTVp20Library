@@ -7,6 +7,7 @@ package gui.mycomponents;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,6 +36,7 @@ public class EditComponent extends JPanel{
         title.setHorizontalAlignment(JLabel.RIGHT);
 //        title.setFont(new Font("Tahoma",1,16));
         this.add(title);
+        this.add(Box.createRigidArea(new Dimension(5,0)));
         textField = new JTextField();
         if(widthEdit == 0){
             textField.setPreferredSize(new Dimension(widthPanel-widthPanel/3 - 80,27));
@@ -45,4 +47,9 @@ public class EditComponent extends JPanel{
         textField.setMaximumSize(textField.getPreferredSize());
         this.add(textField);
     }
+
+    public JTextField getEditor() {
+        return textField;
+    }
+    
 }
